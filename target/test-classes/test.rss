@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>Feader Test Feed</title>
+        <description>This is a test feed for the Feader project</description>
+        <language>en</language>
+        <link>http://www.uni-koeln.de/</link>
+        <copyright>(c) 2019 Softwaretechnologie II: Java</copyright>
+        <item>
+            <title>Test Title 1</title>
+            <description>
+                <![CDATA[Test Description 1 for Feader tests]]>
+            </description>
+            <link>http://www.uni-koeln.de/test1.html</link>
+            <dc:creator>The Feader Developers</dc:creator>
+            <dc:date>2019-06-19T16:31:00-00:00</dc:date>
+        </item>
+        <item>
+            <title>Test Title 2</title>
+            <description>
+                <![CDATA[Test Description 2 for Feader tests]]>
+            </description>
+            <link>http://www.uni-koeln.de/test2.html</link>
+            <dc:creator>The Feader Developers</dc:creator>
+            <dc:date>2019-06-19T16:31:00-00:00</dc:date>
+        </item>
+    </channel>
+</rss>
