@@ -89,7 +89,7 @@ public class ConfigDialog {
 		// SAVE / CANCEL
 		FlowLayout saveCancelLayout = new FlowLayout(FlowLayout.RIGHT);
 		JPanel saveCancelPanel = new JPanel(saveCancelLayout);
-		//canel button
+		//cancel button
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			@Override

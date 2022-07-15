@@ -20,8 +20,8 @@ public class Feader {
 	}
 	
 	/**
-	 * Returns a new IFeaderIO instance
-	 * @return the new IFeaderIO instance
+	 * Returns a new IAppIO instance
+	 * @return the new IAppIO instance
 	 */
 	public static IAppIO getAppIO() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
@@ -30,8 +30,8 @@ public class Feader {
 	}
 	
 	/**
-	 * Returns a new IFeaderIO instance
-	 * @return the new IFeaderIO instance
+	 * Returns a new ISearchEngine instance
+	 * @return the new ISearchEngine instance
 	 */
 	public static ISearchEngine getSearchEngine() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
@@ -41,7 +41,7 @@ public class Feader {
 	
 	/**
 	 * Returns a new ITokenizer instance
-	 * @return the new IFeaderIO instance
+	 * @return the new ITokenizer instance
 	 */
 	public static ITokenizer getTokenizer() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
