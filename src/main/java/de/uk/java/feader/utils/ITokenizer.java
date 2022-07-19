@@ -1,10 +1,13 @@
 package de.uk.java.feader.utils;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
-public interface ITokenizer {
+
+public interface ITokenizer{
 	
 	/**
+	 * 
 	 * Tokenizes the input text into a <code>List</code>
 	 * of <code>String</code> objects representing the
 	 * single tokens of the input text.
@@ -19,6 +22,28 @@ public interface ITokenizer {
 	 * @return The <code>List</code> containing the tokens as strings
 	 */
 	public List<String> tokenize(String text);
+}
 
+class Tokenizer implements ITokenizer{
+
+	
+	@Override
+	public List<String> tokenize(String text) {
+		
+		List<String> tokens = new ArrayList<String>();
+		
+		StringTokenizer st = new StringTokenizer(text);
+		
+		while(st.hasMoreTokens()){
+			tokens.add(st.nextToken());
+		}
+		
+		return tokens;
+	}
+	
+	
+	
+	
+	
 }
 

@@ -45,7 +45,7 @@ public class Feader {
 	 */
 	public static ITokenizer getTokenizer() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
-		// return new Tokenizer();
+		//return new Tokenizer();
 		return null;
 	}
 
