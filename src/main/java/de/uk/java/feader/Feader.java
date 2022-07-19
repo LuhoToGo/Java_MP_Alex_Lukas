@@ -4,6 +4,7 @@ import de.uk.java.feader.gui.FeaderGUI;
 import de.uk.java.feader.io.IAppIO;
 import de.uk.java.feader.search.ISearchEngine;
 import de.uk.java.feader.utils.ITokenizer;
+import de.uk.java.feader.utils.Tokenizer;
 
 
 public class Feader {
@@ -46,7 +47,8 @@ public class Feader {
 	public static ITokenizer getTokenizer() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
 		// return new Tokenizer();
-		return null;
+		
+		return new Tokenizer();
 	}
 
 }
