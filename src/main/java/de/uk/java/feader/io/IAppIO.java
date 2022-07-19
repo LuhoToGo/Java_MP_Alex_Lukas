@@ -1,6 +1,7 @@
 package de.uk.java.feader.io;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Properties;
 
@@ -15,8 +16,9 @@ public interface IAppIO {
 	 * <code>List</code> of <code>Feed</code> objects.
 	 * @param feedsFile The file to load the feeds' data from
 	 * @return The <code>List</code> of loaded feeds
+	 * @throws FileNotFoundException 
 	 */
-	public List<Feed> loadSubscribedFeeds(File feedsFile);
+	public List<Feed> loadSubscribedFeeds(File feedsFile) throws FileNotFoundException;
 	
 	/**
 	 * Saves the currently subscribes/added feeds to

@@ -22,9 +22,9 @@ public class Tokenizer implements ITokenizer{
 	 * 
 	 * Der String "token" bewahrt das nächste Wort des Tokenizers auf.
 	 * Dort kann das Wort mit Hilfe von Jsoup.parse() von HTML-Tags befreit werden.
-	 * Daraufhin entfernt .replaceAll() alle übrigen Sonderzeichen und Zahlen.
-	 * Im letzten Schritt wird überprüft, ob der String leer ist.
-	 * Ist dies nicht der Fall, wird das Wort in die Array-Liste hinzugefügt.
+	 * Daraufhin entfernt .replaceAll() alle uebrigen Sonderzeichen und Zahlen.
+	 * Im letzten Schritt wird ueberprüft, ob der String leer ist.
+	 * Ist dies nicht der Fall, wird das Wort in die Array-Liste hinzugefuegt.
 	 * 
 	 * @return Eine Array-Liste die den reinen Text in Form der einzelnen Worte beinhaltet.
 	 * 
