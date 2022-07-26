@@ -21,7 +21,6 @@ public class SearchEngine implements ISearchEngine {
 		return found;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public void createSearchIndex(List<Feed> feeds) {
 		
