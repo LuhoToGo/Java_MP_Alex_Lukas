@@ -3,6 +3,7 @@ package de.uk.java.feader;
 import de.uk.java.feader.gui.FeaderGUI;
 import de.uk.java.feader.io.IAppIO;
 import de.uk.java.feader.search.ISearchEngine;
+import de.uk.java.feader.search.SearchEngine;
 import de.uk.java.feader.utils.ITokenizer;
 import de.uk.java.feader.utils.Tokenizer;
 
@@ -37,7 +38,7 @@ public class Feader {
 	public static ISearchEngine getSearchEngine() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
 		// return new SearchEngine();
-		return null;
+		return new SearchEngine();
 	}
 	
 	/**

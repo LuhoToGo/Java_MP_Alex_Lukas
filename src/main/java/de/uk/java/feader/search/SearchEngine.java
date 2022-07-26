@@ -1,24 +1,45 @@
 package de.uk.java.feader.search;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 import de.uk.java.feader.data.Entry;
 import de.uk.java.feader.data.Feed;
 import de.uk.java.feader.utils.ITokenizer;
+import de.uk.java.feader.utils.Tokenizer;
 
 public class SearchEngine implements ISearchEngine {
 
 	@Override
 	public List<Entry> search(String searchTerm) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Entry> found = new ArrayList();
+		// TODO
+		return found;
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void createSearchIndex(List<Feed> feeds) {
-		// TODO Auto-generated method stub
 		
+		
+		
+		java.util.Iterator<Feed> iterator = feeds.iterator();
+		while (iterator.hasNext()) {
+			Feed Feed = iterator.next();
+			java.util.Iterator<Entry> iteratorTwo = Feed.getEntries().iterator();
+			while (iteratorTwo.hasNext()) {
+				Entry Entry = iteratorTwo.next();
+				Tokenizer test = new Tokenizer();
+				test.tokenize(Entry.html());
+				
+				
+			}
+			
+		}
 	}
 
 	@Override
