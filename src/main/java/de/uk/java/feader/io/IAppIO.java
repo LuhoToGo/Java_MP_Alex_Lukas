@@ -18,7 +18,7 @@ public interface IAppIO {
 	 * @return The <code>List</code> of loaded feeds
 	 * @throws FileNotFoundException 
 	 */
-	public List<Feed> loadSubscribedFeeds(File feedsFile) throws FileNotFoundException;
+	public List<Feed> loadSubscribedFeeds(File feedsFile);
 	
 	/**
 	 * Saves the currently subscribes/added feeds to
