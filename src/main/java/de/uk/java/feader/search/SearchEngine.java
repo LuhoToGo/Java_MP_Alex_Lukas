@@ -1,14 +1,15 @@
 package de.uk.java.feader.search;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.base.Joiner;
 
 import de.uk.java.feader.data.Entry;
 import de.uk.java.feader.data.Feed;
@@ -109,20 +110,43 @@ public class SearchEngine implements ISearchEngine {
 	@Override
 	public void saveSearchIndex(File indexFile) {
 		
-		
-		
+		String index = convertWithGuava(invertedIndex);
+		boolean repeat = true;
+		while(repeat) {
+			try {
+				PrintWriter out = new PrintWriter(indexFile);
+				out.print(index);
+				out.close();
+				repeat = false;
+			} catch (FileNotFoundException e) {
+				indexFile = new File("feader.index");			
+			}
+		}
+	}
+	
+	public String convertWithGuava(HashMap<String, HashSet<Integer>> map) {
+		return Joiner.on(",").withKeyValueSeparator("=").join(map);
 	}
 
 	@Override
 	public void loadSearchIndex(File indexFile) {
-		// TODO Auto-generated method stub
+		
+		//TO-DO
 		
 	}
 
+	public HashMap<String,HashSet<Integer>> convertBackWithGuava(String mapAsString) {
+		return null;
+	}
+	
 	@Override
 	public boolean indexExists() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if (invertedIndex.isEmpty() == true) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

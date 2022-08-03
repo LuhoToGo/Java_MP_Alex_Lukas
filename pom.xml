@@ -18,6 +18,12 @@
 	</build>
 	<dependencies>
 		<dependency>
+			<!-- baeldung.com/java-map-to-string-conversion -->
+	   		<groupId>com.google.guava</groupId>
+    		<artifactId>guava</artifactId>
+    		<version>31.0.1-jre</version>
+		</dependency>
+		<dependency>
 			<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
     		<groupId>commons-io</groupId>
     		<artifactId>commons-io</artifactId>

@@ -52,7 +52,7 @@ public class AppIO implements IAppIO {
 	public void saveSubscribedFeeds(List<Feed> feeds, File feedsFile) {
 		
 		try {
-			FileOutputStream fos = new FileOutputStream(feedsFile);
+			FileOutputStream fos = new FileOutputStream(feedsFile); //eventuell FileNotFoundException -> create File
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(feeds);
 			oos.close();
@@ -80,7 +80,7 @@ public class AppIO implements IAppIO {
 	@Override
 	public void saveConfig(Properties config, File configFile) {
 		
-		try (OutputStream output = new FileOutputStream(configFile)){
+		try (OutputStream output = new FileOutputStream(configFile)){ //eventuell FileNotFoundException -> create File
 			config.store(output, null);
 			
 		} catch (IOException e) {
