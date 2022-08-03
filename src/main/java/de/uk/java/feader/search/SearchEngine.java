@@ -1,6 +1,9 @@
 package de.uk.java.feader.search;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +17,7 @@ import de.uk.java.feader.utils.Tokenizer;
 
 public class SearchEngine implements ISearchEngine {
 
+	private Tokenizer tokenizer;
 	Map<Integer,Entry> EntryMap = new HashMap<Integer,Entry>();
 	HashMap<String, HashSet<Integer>> invertedIndex = new HashMap<String, HashSet<Integer>>();
 	
@@ -51,8 +55,7 @@ public class SearchEngine implements ISearchEngine {
 				
 				EntryMap.put(counter, Entry);
 				
-				Tokenizer test = new Tokenizer();
-				List<String> tokenized = test.tokenize(Entry.html());
+				List<String> tokenized = tokenizer.tokenize(Entry.html());
 				
 				java.util.Iterator<String> iteratorThree = tokenized.iterator();
 				
@@ -71,19 +74,42 @@ public class SearchEngine implements ISearchEngine {
 
 	@Override
 	public void addToSearchIndex(Feed feed) {
-		// TODO Auto-generated method stub
 		
+		java.util.Iterator<Entry> entryIterator = feed.getEntries().iterator();
+		
+		while (entryIterator.hasNext()) {
+			
+			Entry Entry = entryIterator.next();
+			
+			int entryPoint = EntryMap.size(); //vielleicht .size()+1
+			EntryMap.put(entryPoint, Entry);
+			
+			List<String> tokenized = tokenizer.tokenize(Entry.html());
+			
+			java.util.Iterator<String> stringIterator = tokenized.iterator();
+			
+			while (stringIterator.hasNext()) {
+				
+				String word = stringIterator.next();
+				if (!invertedIndex.containsKey(word)) {
+					invertedIndex.put(word, new HashSet<Integer>());
+				}
+				invertedIndex.get(word).add(entryPoint);
+			}
+		}
 	}
 
 	@Override
 	public void setTokenizer(ITokenizer tokenizer) {
-		// TODO Auto-generated method stub
+		
+		this.tokenizer = (Tokenizer) tokenizer;
 		
 	}
 
 	@Override
 	public void saveSearchIndex(File indexFile) {
-		// TODO Auto-generated method stub
+		
+		
 		
 	}
 
