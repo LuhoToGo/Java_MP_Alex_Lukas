@@ -1,13 +1,17 @@
 package de.uk.java.feader.search;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -20,85 +24,76 @@ import de.uk.java.feader.utils.Tokenizer;
 public class SearchEngine implements ISearchEngine {
 
 	private Tokenizer tokenizer;
-	Map<Integer,Entry> EntryMap = new HashMap<Integer,Entry>();
-	HashMap<String, HashSet<Integer>> invertedIndex = new HashMap<String, HashSet<Integer>>();
+	 List<String> stopwords = Arrays.asList("a", "able", "about",
+	            "across", "after", "all", "almost", "also", "am", "among", "an",
+	            "and", "any", "are", "as", "at", "be", "because", "been", "but",
+	            "by", "can", "cannot", "could", "dear", "did", "do", "does",
+	            "either", "else", "ever", "every", "for", "from", "get", "got",
+	            "had", "has", "have", "he", "her", "hers", "him", "his", "how",
+	            "however", "i", "if", "in", "into", "is", "it", "its", "just",
+	            "least", "let", "like", "likely", "may", "me", "might", "most",
+	            "must", "my", "neither", "no", "nor", "not", "of", "off", "often",
+	            "on", "only", "or", "other", "our", "own", "rather", "said", "say",
+	            "says", "she", "should", "since", "so", "some", "than", "that",
+	            "the", "their", "them", "then", "there", "these", "they", "this",
+	            "tis", "to", "too", "twas", "us", "wants", "was", "we", "were",
+	            "what", "when", "where", "which", "while", "who", "whom", "why",
+	            "will", "with", "would", "yet", "you", "your");
+	 
+	    Map<String, List<Tuple>> index = new HashMap<String, List<Tuple>>();
+	    List<String> files = new ArrayList<String>();
 	
 	@Override
 	public List<Entry> search(String searchTerm) {
+		 Set<String> answer = new HashSet<String>();
+         String word = searchTerm.toLowerCase();
+         List<Tuple> idx = index.get(word);
+         if (idx != null) {
+             for (Tuple t : idx) {
+                 answer.add(files.get(t.fileno));
+             }
+         }
+         System.out.print(word);
+         for (String f : answer) {
+             System.out.print(" " + f);
+         }
+         System.out.println("");
 		
-		String[] words = searchTerm.split("\\W+");
-		HashSet<Integer> x = new HashSet<Integer>(invertedIndex.get(words[0].toLowerCase()));
-		
-		for (String word: words) {
-			x.retainAll(invertedIndex.get(word));
-		}
-		
-		List<Entry> found = new ArrayList<Entry>();
-		for (int num: x) {
-			found.add(EntryMap.get(num));
-		}	
-		return found;
+		return null;
 	}
 
 	@Override
 	public void createSearchIndex(List<Feed> feeds) {
+		int fileno = files.indexOf(feeds);
+        if (fileno == -1) {
+            files.add(feeds);
+            fileno = files.size() - 1;
+        }
+ 
+        int pos = 0;
+        for (String line = reader.readLine(); line != null; line = reader
+                .readLine()) {
+            for (String _word : line.split("\\W+")) {
+                String word = _word.toLowerCase();
+                pos++;
+                if (stopwords.contains(word))
+                    continue;
+                List<Tuple> idx = index.get(word);
+                if (idx == null) {
+                    idx = new LinkedList<Tuple>();
+                    index.put(word, idx);
+                }
+                idx.add(new Tuple(fileno, pos));
+            }
+        }
+        System.out.println("indexed " + file.getPath() + " " + pos + " words");
 		
-		int counter = 0;
-		
-		java.util.Iterator<Feed> iterator = feeds.iterator();
-		while (iterator.hasNext()) {
-			Feed Feed = iterator.next();
-			
-			java.util.Iterator<Entry> iteratorTwo = Feed.getEntries().iterator();
-			
-			while (iteratorTwo.hasNext()) {				
-				
-				Entry Entry = iteratorTwo.next();
-				
-				EntryMap.put(counter, Entry);
-				
-				List<String> tokenized = tokenizer.tokenize(Entry.html());
-				
-				java.util.Iterator<String> iteratorThree = tokenized.iterator();
-				
-				while (iteratorThree.hasNext()) {
-					
-					String word = iteratorThree.next();
-					if (!invertedIndex.containsKey(word)) {
-						invertedIndex.put(word, new HashSet<Integer>());
-					}
-					invertedIndex.get(word).add(counter);
-				}
-			}
-			counter++;
-		}
 	}
 
 	@Override
 	public void addToSearchIndex(Feed feed) {
 		
-		java.util.Iterator<Entry> entryIterator = feed.getEntries().iterator();
 		
-		while (entryIterator.hasNext()) {
-			
-			Entry Entry = entryIterator.next();
-			
-			int entryPoint = EntryMap.size(); //vielleicht .size()+1
-			EntryMap.put(entryPoint, Entry);
-			
-			List<String> tokenized = tokenizer.tokenize(Entry.html());
-			
-			java.util.Iterator<String> stringIterator = tokenized.iterator();
-			
-			while (stringIterator.hasNext()) {
-				
-				String word = stringIterator.next();
-				if (!invertedIndex.containsKey(word)) {
-					invertedIndex.put(word, new HashSet<Integer>());
-				}
-				invertedIndex.get(word).add(entryPoint);
-			}
-		}
 	}
 
 	@Override
@@ -111,44 +106,16 @@ public class SearchEngine implements ISearchEngine {
 	@Override
 	public void saveSearchIndex(File indexFile) {
 		
-		String index = convertWithGuava(invertedIndex);
-		boolean repeat = true;
-		while(repeat) {
-			try {
-				PrintWriter out = new PrintWriter(indexFile);
-				out.print(index);
-				out.close();
-				repeat = false;
-			} catch (FileNotFoundException e) {
-				indexFile = new File("feader.index");			
-			}
-		}
+		
 	}
 	
-	public String convertWithGuava(HashMap<String, HashSet<Integer>> map) {
-		return Joiner.on(",").withKeyValueSeparator("=").join(map);
-	}
-
+	
 	@Override
 	public void loadSearchIndex(File indexFile) {
 		
 		
-		
 	}
 
-	public HashMap<String,HashSet<Integer>> convertBackWithGuava(String mapAsString) {
-		
-		Map<String, String> test = Splitter.on(",").withKeyValueSeparator("=").split(mapAsString);
-		HashMap<String, HashSet<Integer>> newII = new HashMap<String, HashSet<Integer>>();
-		
-		for (Map.Entry<String, String> entry : test.entrySet()) {
-			HashSet<Integer> z = new HashSet<Integer>();
-			z.add(Integer.parseInt(entry.getValue()));
-	        newII.put(entry.getKey(), z);
-	    }
-		
-		return null;
-	}
 	
 	@Override
 	public boolean indexExists() {
@@ -159,5 +126,15 @@ public class SearchEngine implements ISearchEngine {
 			return true;
 		}
 	}
+	
+	 private class Tuple {
+	        private int fileno;
+	        private int position;
+	 
+	        public Tuple(int fileno, int position) {
+	            this.fileno = fileno;
+	            this.position = position;
+	        }
+	    }
 
 }
