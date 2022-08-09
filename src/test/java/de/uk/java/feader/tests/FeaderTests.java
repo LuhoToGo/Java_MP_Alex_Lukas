@@ -81,7 +81,7 @@ public class FeaderTests {
 	}
 	
 	@Test
-	public void testIoLoadSubscribedFeeds() {
+	public void testIoLoadSubscribedFeeds() throws FileNotFoundException {
 		System.out.println("[TEST] IFeaderIO.loadSubscribedFeeds()");
 		List<Feed> feedsTemp = IO.loadSubscribedFeeds(FEEDS_FILE);
 		

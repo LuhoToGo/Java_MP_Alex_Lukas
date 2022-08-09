@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -119,13 +120,18 @@ public class FeaderGUI extends JFrame implements ActionListener, PropertyChangeL
 		SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-            	init(); // create new Feader instance
+            	try {
+					init(); // create new Feader instance
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 	}
 	
 	
-	private void init() {
+	private void init() throws FileNotFoundException {
 		config = io.loadConfig(CONFIG_FILE);
 		displayedEntries = new ArrayList<>();
 		downloader = new FeedDownloader();
@@ -354,19 +360,19 @@ public class FeaderGUI extends JFrame implements ActionListener, PropertyChangeL
 	}
 
 
-	private void loadSubscribedFeeds() {
+	private void loadSubscribedFeeds() throws FileNotFoundException {
 		feeds = io.loadSubscribedFeeds(FEEDS_FILE);
 		renderFeedsList();
 	}
 	
 	
-	private void setFeeds(List<Feed> feeds) {
+	private void setFeeds(List<Feed> feeds) throws FileNotFoundException {
 		this.feeds = feeds;
 		renderFeedsList();
 	}
 	
 	
-	private void renderFeedsList() {
+	private void renderFeedsList() throws FileNotFoundException {
 		if (feeds == null) feeds = io.loadSubscribedFeeds(FEEDS_FILE);
 		feedsListModel.clear();
 		for (Feed feed : feeds) {

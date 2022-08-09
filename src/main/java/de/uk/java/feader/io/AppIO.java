@@ -93,12 +93,24 @@ public class AppIO implements IAppIO {
 	public void exportAsHtml(List<Entry> entries, File htmlFile) {
 		
 		try {
-			FileUtils.writeStringToFile(htmlFile, entries.toString(), "UTF-8");
-			
-		} catch (IOException e) {
-			e.printStackTrace();
+			FileUtils.writeStringToFile(htmlFile, "<!DOCTYPE html><html><head><title>Feader Export</title></head><body>", "UTF-8", true);
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 		
+		for (Entry entry : entries) {
+			try {
+				FileUtils.writeStringToFile(htmlFile, entry.html(), "UTF-8", true);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			FileUtils.writeStringToFile(htmlFile, "</body></html>", "UTF-8", true);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 }
