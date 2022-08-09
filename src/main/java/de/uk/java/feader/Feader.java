@@ -1,6 +1,7 @@
 package de.uk.java.feader;
 
 import de.uk.java.feader.gui.FeaderGUI;
+import de.uk.java.feader.io.AppIO;
 import de.uk.java.feader.io.IAppIO;
 import de.uk.java.feader.search.ISearchEngine;
 import de.uk.java.feader.search.SearchEngine;
@@ -28,7 +29,8 @@ public class Feader {
 	public static IAppIO getAppIO() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
 		// return new AppIO();
-		return null;
+		
+		return new AppIO();
 	}
 	
 	/**
@@ -38,7 +40,9 @@ public class Feader {
 	public static ISearchEngine getSearchEngine() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
 		// return new SearchEngine();
+		
 		return new SearchEngine();
+		
 	}
 	
 	/**
