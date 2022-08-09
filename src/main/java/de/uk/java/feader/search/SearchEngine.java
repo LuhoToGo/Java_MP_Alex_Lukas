@@ -29,17 +29,18 @@ public class SearchEngine implements ISearchEngine {
 	@Override
 	public List<Entry> search(String searchTerm) {
 		
-		String[] words = searchTerm.split("\\W+");
-		HashSet<Integer> x = new HashSet<Integer>(invertedIndex.get(words[0].toLowerCase()));
-		
-		for (String word: words) {
-			x.retainAll(invertedIndex.get(word));
-		}
-		
 		List<Entry> found = new ArrayList<Entry>();
-		for (int num: x) {
-			found.add(EntryMap.get(num));
-		}	
+		
+		if (invertedIndex.containsKey(searchTerm)) {
+			
+			HashSet<Integer> x = invertedIndex.get(searchTerm);
+			
+			java.util.Iterator<Integer> iterator = x.iterator();
+			
+			while (iterator.hasNext()) {
+				found.add(EntryMap.get(iterator.next()));
+			}	
+		}
 		return found;
 	}
 
@@ -72,8 +73,8 @@ public class SearchEngine implements ISearchEngine {
 					}
 					invertedIndex.get(word).add(counter);
 				}
+				counter++;
 			}
-			counter++;
 		}
 	}
 
