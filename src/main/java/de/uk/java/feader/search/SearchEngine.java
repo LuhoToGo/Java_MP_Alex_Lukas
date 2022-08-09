@@ -22,6 +22,7 @@ import de.uk.java.feader.utils.Tokenizer;
 
 public class SearchEngine implements ISearchEngine {
 
+	int counter = 0;
 	private Tokenizer tokenizer;
 	Map<Integer,Entry> EntryMap = new HashMap<Integer,Entry>();
 	HashMap<String, HashSet<Integer>> invertedIndex = new HashMap<String, HashSet<Integer>>();
@@ -46,7 +47,7 @@ public class SearchEngine implements ISearchEngine {
 	@Override
 	public void createSearchIndex(List<Feed> feeds) {
 		
-		int counter = 0;
+		counter = 0;
 		
 		java.util.Iterator<Feed> iterator = feeds.iterator();
 		while (iterator.hasNext()) {
@@ -72,8 +73,9 @@ public class SearchEngine implements ISearchEngine {
 					}
 					invertedIndex.get(word).add(counter);
 				}
+				counter++;
 			}
-			counter++;
+			
 		}
 	}
 
@@ -86,8 +88,7 @@ public class SearchEngine implements ISearchEngine {
 			
 			Entry Entry = entryIterator.next();
 			
-			int entryPoint = EntryMap.size(); //vielleicht .size()+1
-			EntryMap.put(entryPoint, Entry);
+			EntryMap.put(++counter, Entry);
 			
 			List<String> tokenized = tokenizer.tokenize(Entry.html());
 			
@@ -99,7 +100,7 @@ public class SearchEngine implements ISearchEngine {
 				if (!invertedIndex.containsKey(word)) {
 					invertedIndex.put(word, new HashSet<Integer>());
 				}
-				invertedIndex.get(word).add(entryPoint);
+				invertedIndex.get(word).add(counter);
 			}
 		}
 	}

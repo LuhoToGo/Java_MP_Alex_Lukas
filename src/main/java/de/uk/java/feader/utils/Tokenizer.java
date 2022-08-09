@@ -41,7 +41,7 @@ public class Tokenizer implements ITokenizer{
 			
 			token = Jsoup.parse(token).text();
 			
-			token = token.replaceAll("[^a-zA-Z]","");
+			token = token.replaceAll("[^öÖäÄüÜßa-zA-Z]","");
 			
 			if(token.isEmpty()) {
 				continue;
