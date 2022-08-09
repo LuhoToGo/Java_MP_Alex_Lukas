@@ -3,6 +3,7 @@ package de.uk.java.feader.search;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 
 import de.uk.java.feader.data.Entry;
 import de.uk.java.feader.data.Feed;
@@ -70,7 +72,7 @@ public class SearchEngine implements ISearchEngine {
 				}
 			}
 			counter++;
-		}		
+		}
 	}
 
 	@Override
@@ -131,11 +133,22 @@ public class SearchEngine implements ISearchEngine {
 	@Override
 	public void loadSearchIndex(File indexFile) {
 		
-		//TO-DO
+		
 		
 	}
 
 	public HashMap<String,HashSet<Integer>> convertBackWithGuava(String mapAsString) {
+		
+		Map<String, String> test = Splitter.on(",").withKeyValueSeparator("=").split(mapAsString);
+		HashMap<String, HashSet<Integer>> newII = new HashMap<String, HashSet<Integer>>();
+		
+		for (Map.Entry<String, String> entry : test.entrySet()) {
+			
+	        newII.put(entry.getKey(), entry.getValue());
+	    }
+		
+		
+		
 		return null;
 	}
 	
