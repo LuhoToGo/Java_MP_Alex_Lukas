@@ -1,7 +1,10 @@
 package de.uk.java.feader.search;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,7 +135,16 @@ public class SearchEngine implements ISearchEngine {
 	@Override
 	public void loadSearchIndex(File indexFile) {
 		
-		
+		try {
+			FileInputStream fis = new FileInputStream(indexFile);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			String index = (String) ois.readObject();
+			ois.close();
+			convertBackWithGuava(index);
+			
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();	
+		}
 		
 	}
 
@@ -147,7 +159,7 @@ public class SearchEngine implements ISearchEngine {
 	        newII.put(entry.getKey(), z);
 	    }
 		
-		return null;
+		return newII;
 	}
 	
 	@Override
