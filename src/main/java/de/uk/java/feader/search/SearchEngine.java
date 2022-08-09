@@ -147,7 +147,7 @@ public class SearchEngine implements ISearchEngine {
 	        newII.put(entry.getKey(), z);
 	    }
 		
-		return null;
+		return newII;
 	}
 	
 	@Override
