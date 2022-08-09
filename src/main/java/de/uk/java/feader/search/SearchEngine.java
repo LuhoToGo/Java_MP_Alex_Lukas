@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 
 import de.uk.java.feader.data.Entry;
 import de.uk.java.feader.data.Feed;
@@ -70,7 +71,7 @@ public class SearchEngine implements ISearchEngine {
 				}
 			}
 			counter++;
-		}		
+		}
 	}
 
 	@Override
@@ -131,11 +132,21 @@ public class SearchEngine implements ISearchEngine {
 	@Override
 	public void loadSearchIndex(File indexFile) {
 		
-		//TO-DO
+		
 		
 	}
 
 	public HashMap<String,HashSet<Integer>> convertBackWithGuava(String mapAsString) {
+		
+		Map<String, String> test = Splitter.on(",").withKeyValueSeparator("=").split(mapAsString);
+		HashMap<String, HashSet<Integer>> newII = new HashMap<String, HashSet<Integer>>();
+		
+		for (Map.Entry<String, String> entry : test.entrySet()) {
+			HashSet<Integer> z = new HashSet<Integer>();
+			z.add(Integer.parseInt(entry.getValue()));
+	        newII.put(entry.getKey(), z);
+	    }
+		
 		return null;
 	}
 	
