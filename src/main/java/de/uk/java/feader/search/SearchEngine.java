@@ -29,11 +29,13 @@ public class SearchEngine implements ISearchEngine {
 	@Override
 	public List<Entry> search(String searchTerm) {
 		
+		String lowerCaseSearchTerm = searchTerm.toLowerCase();
+		
 		List<Entry> found = new ArrayList<Entry>();
 		
-		if (invertedIndex.containsKey(searchTerm)) {
+		if (invertedIndex.containsKey(lowerCaseSearchTerm)) {
 			
-			HashSet<Integer> x = invertedIndex.get(searchTerm);
+			HashSet<Integer> x = invertedIndex.get(lowerCaseSearchTerm);
 			
 			java.util.Iterator<Integer> iterator = x.iterator();
 			
@@ -59,6 +61,10 @@ public class SearchEngine implements ISearchEngine {
 				
 				Entry Entry = iteratorTwo.next();
 				
+				if (EntryMap.containsValue(Entry)) {
+					continue;
+				}
+				
 				EntryMap.put(counter, Entry);
 				
 				List<String> tokenized = tokenizer.tokenize(Entry.html());
@@ -67,7 +73,7 @@ public class SearchEngine implements ISearchEngine {
 				
 				while (iteratorThree.hasNext()) {
 					
-					String word = iteratorThree.next();
+					String word = iteratorThree.next().toLowerCase();
 					if (!invertedIndex.containsKey(word)) {
 						invertedIndex.put(word, new HashSet<Integer>());
 					}
@@ -88,6 +94,11 @@ public class SearchEngine implements ISearchEngine {
 			Entry Entry = entryIterator.next();
 			
 			int entryPoint = EntryMap.size(); //vielleicht .size()+1
+			
+			if (EntryMap.containsValue(Entry)) {
+				continue;
+			}
+			
 			EntryMap.put(entryPoint, Entry);
 			
 			List<String> tokenized = tokenizer.tokenize(Entry.html());
@@ -96,7 +107,7 @@ public class SearchEngine implements ISearchEngine {
 			
 			while (stringIterator.hasNext()) {
 				
-				String word = stringIterator.next();
+				String word = stringIterator.next().toLowerCase();
 				if (!invertedIndex.containsKey(word)) {
 					invertedIndex.put(word, new HashSet<Integer>());
 				}
@@ -172,5 +183,5 @@ public class SearchEngine implements ISearchEngine {
 			return true;
 		}
 	}
-
+	
 }
