@@ -23,27 +23,28 @@ import de.uk.java.feader.utils.Tokenizer;
 public class SearchEngine implements ISearchEngine {
 
 	private Tokenizer tokenizer;
-	Map<Integer,Entry> EntryMap = new HashMap<Integer,Entry>();
-	HashMap<String, HashSet<Integer>> invertedIndex = new HashMap<String, HashSet<Integer>>();
+	static Map<Integer,Entry> EntryMap = new HashMap<Integer,Entry>();
+	static HashMap<String, HashSet<Integer>> invertedIndex = new HashMap<String, HashSet<Integer>>();
 	
 	@Override
 	public List<Entry> search(String searchTerm) {
 		
-		String lowerCaseSearchTerm = searchTerm.toLowerCase();
-		
 		List<Entry> found = new ArrayList<Entry>();
 		
-		if (invertedIndex.containsKey(lowerCaseSearchTerm)) {
+		String lowerCaseSearchTerm = searchTerm.toLowerCase();
+		
+		if (lowerCaseSearchTerm.contains("*")) {
 			
-			HashSet<Integer> x = invertedIndex.get(lowerCaseSearchTerm);
+			found = SearchModes.wildcard(lowerCaseSearchTerm);
+			return found;
 			
-			java.util.Iterator<Integer> iterator = x.iterator();
-			
-			while (iterator.hasNext()) {
-				found.add(EntryMap.get(iterator.next()));
-			}	
 		}
-		return found;
+		else {
+		
+			found = SearchModes.basic(lowerCaseSearchTerm);
+			return found;
+			
+		}
 	}
 
 	@Override
@@ -93,7 +94,7 @@ public class SearchEngine implements ISearchEngine {
 			
 			Entry Entry = entryIterator.next();
 			
-			int entryPoint = EntryMap.size(); //vielleicht .size()+1
+			int entryPoint = EntryMap.size();
 			
 			if (EntryMap.containsValue(Entry)) {
 				continue;
@@ -139,10 +140,6 @@ public class SearchEngine implements ISearchEngine {
 			}
 		}
 	}
-	
-	public String convertWithGuava(HashMap<String, HashSet<Integer>> map) {
-		return Joiner.on(",").withKeyValueSeparator("=").join(map);
-	}
 
 	@Override
 	public void loadSearchIndex(File indexFile) {
@@ -159,6 +156,20 @@ public class SearchEngine implements ISearchEngine {
 		}
 		
 	}
+	
+	@Override
+	public boolean indexExists() {
+		
+		if (invertedIndex.isEmpty() == true) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public String convertWithGuava(HashMap<String, HashSet<Integer>> map) {
+		return Joiner.on(",").withKeyValueSeparator("=").join(map);
+	}
 
 	public HashMap<String,HashSet<Integer>> convertBackWithGuava(String mapAsString) {
 		
@@ -172,16 +183,6 @@ public class SearchEngine implements ISearchEngine {
 	    }
 		
 		return newII;
-	}
-	
-	@Override
-	public boolean indexExists() {
-		
-		if (invertedIndex.isEmpty() == true) {
-			return false;
-		} else {
-			return true;
-		}
 	}
 	
 }
