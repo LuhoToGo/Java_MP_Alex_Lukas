@@ -28,7 +28,6 @@ public class Feader {
 	 */
 	public static IAppIO getAppIO() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
-		// return new AppIO();
 		return new AppIO();
 	}
 	
@@ -38,7 +37,6 @@ public class Feader {
 	 */
 	public static ISearchEngine getSearchEngine() {
 		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
-		// return new SearchEngine();
 		return new SearchEngine();
 	}
 	
@@ -47,9 +45,7 @@ public class Feader {
 	 * @return the new ITokenizer instance
 	 */
 	public static ITokenizer getTokenizer() {
-		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!
-		// return new Tokenizer();
-		
+		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÜCKGEBEN !!!	
 		return new Tokenizer();
 	}
 

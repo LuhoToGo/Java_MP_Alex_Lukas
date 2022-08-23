@@ -19,16 +19,15 @@ import de.uk.java.feader.data.Feed;
 
 public class AppIO implements IAppIO {
 
-	@Override
+	
 	/**
 	 * 
+	 * 
 	 * @author Alessandro Marini & Lukas Hoffmann
-	 * 
-	 * @param
-	 * 
-	 * @return
-	 * 
+	 * @throws ClassNotFoundException 
+	 * @throws IOException
 	 */
+	@Override
 	public List<Feed> loadSubscribedFeeds(File feedsFile) {
 		
 		try {
@@ -48,11 +47,15 @@ public class AppIO implements IAppIO {
 		
 	}
 
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 * @throws IOException
+	 */
 	@Override
 	public void saveSubscribedFeeds(List<Feed> feeds, File feedsFile) {
 		
 		try {
-			FileOutputStream fos = new FileOutputStream(feedsFile); //eventuell FileNotFoundException -> create File
+			FileOutputStream fos = new FileOutputStream(feedsFile);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(feeds);
 			oos.close();
@@ -62,6 +65,10 @@ public class AppIO implements IAppIO {
 		}
 	}
 
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 * @throws IOException
+	 */
 	@Override
 	public Properties loadConfig(File configFile) {
 		
@@ -70,13 +77,17 @@ public class AppIO implements IAppIO {
 			config.load(input);
 			return config;
 			
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return config;
 		
 	}
 
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 * @throws IOException
+	 */
 	@Override
 	public void saveConfig(Properties config, File configFile) {
 		
@@ -89,6 +100,10 @@ public class AppIO implements IAppIO {
 		
 	}
 
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 * @throws IOException
+	 */
 	@Override
 	public void exportAsHtml(List<Entry> entries, File htmlFile) {
 		

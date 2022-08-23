@@ -23,9 +23,22 @@ import de.uk.java.feader.utils.Tokenizer;
 public class SearchEngine implements ISearchEngine {
 
 	private Tokenizer tokenizer;
+	
+	/**
+	 * A Map used to store every entry loaded by the RSS Reader
+	 */
 	static Map<Integer,Entry> EntryMap = new HashMap<Integer,Entry>();
+	
+	
+	/**
+	 * A HashMap used as an Inverted Index, combining tokenized words with Numbers pointing to the entries containing them
+	 */
 	static HashMap<String, HashSet<Integer>> invertedIndex = new HashMap<String, HashSet<Integer>>();
 	
+	
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 */
 	@Override
 	public List<Entry> search(String searchTerm) {
 		
@@ -47,20 +60,23 @@ public class SearchEngine implements ISearchEngine {
 		}
 	}
 
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 */
 	@Override
 	public void createSearchIndex(List<Feed> feeds) {
 		
 		int counter = 0;
 		
-		java.util.Iterator<Feed> iterator = feeds.iterator();
-		while (iterator.hasNext()) {
-			Feed Feed = iterator.next();
+		java.util.Iterator<Feed> feedIterator = feeds.iterator();
+		while (feedIterator.hasNext()) {
+			Feed Feed = feedIterator.next();
 			
-			java.util.Iterator<Entry> iteratorTwo = Feed.getEntries().iterator();
+			java.util.Iterator<Entry> entryIterator = Feed.getEntries().iterator();
 			
-			while (iteratorTwo.hasNext()) {				
+			while (entryIterator.hasNext()) {				
 				
-				Entry Entry = iteratorTwo.next();
+				Entry Entry = entryIterator.next();
 				
 				if (EntryMap.containsValue(Entry)) {
 					continue;
@@ -70,11 +86,11 @@ public class SearchEngine implements ISearchEngine {
 				
 				List<String> tokenized = tokenizer.tokenize(Entry.html());
 				
-				java.util.Iterator<String> iteratorThree = tokenized.iterator();
+				java.util.Iterator<String> stringIterator = tokenized.iterator();
 				
-				while (iteratorThree.hasNext()) {
+				while (stringIterator.hasNext()) {
 					
-					String word = iteratorThree.next().toLowerCase();
+					String word = stringIterator.next().toLowerCase();
 					if (!invertedIndex.containsKey(word)) {
 						invertedIndex.put(word, new HashSet<Integer>());
 					}
@@ -85,6 +101,9 @@ public class SearchEngine implements ISearchEngine {
 		}
 	}
 
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 */
 	@Override
 	public void addToSearchIndex(Feed feed) {
 		
@@ -117,6 +136,9 @@ public class SearchEngine implements ISearchEngine {
 		}
 	}
 
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 */
 	@Override
 	public void setTokenizer(ITokenizer tokenizer) {
 		
@@ -124,6 +146,10 @@ public class SearchEngine implements ISearchEngine {
 		
 	}
 
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 * @throws FileNotFoundException
+	 */
 	@Override
 	public void saveSearchIndex(File indexFile) {
 		
@@ -141,6 +167,11 @@ public class SearchEngine implements ISearchEngine {
 		}
 	}
 
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
 	@Override
 	public void loadSearchIndex(File indexFile) {
 		
@@ -157,6 +188,9 @@ public class SearchEngine implements ISearchEngine {
 		
 	}
 	
+	/**
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 */
 	@Override
 	public boolean indexExists() {
 		
@@ -167,22 +201,36 @@ public class SearchEngine implements ISearchEngine {
 		}
 	}
 	
+	/**
+	 * Converts the Inverted Index to a String
+	 * 
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 * @param map
+	 * @return String version of the invertedIndex
+	 */
 	public String convertWithGuava(HashMap<String, HashSet<Integer>> map) {
 		return Joiner.on(",").withKeyValueSeparator("=").join(map);
 	}
 
+	/**
+	 * Converts the String back to an Inverted Index in form of a HashMap
+	 * 
+	 * @author Alessandro Marini & Lukas Hoffmann
+	 * @param mapAsString
+	 * @return Inverted Index in form of a HashMap
+	 */
 	public HashMap<String,HashSet<Integer>> convertBackWithGuava(String mapAsString) {
 		
-		Map<String, String> test = Splitter.on(",").withKeyValueSeparator("=").split(mapAsString);
-		HashMap<String, HashSet<Integer>> newII = new HashMap<String, HashSet<Integer>>();
+		Map<String, String> temp = Splitter.on(",").withKeyValueSeparator("=").split(mapAsString);
+		HashMap<String, HashSet<Integer>> newInvertedIndex = new HashMap<String, HashSet<Integer>>();
 		
-		for (Map.Entry<String, String> entry : test.entrySet()) {
-			HashSet<Integer> z = new HashSet<Integer>();
-			z.add(Integer.parseInt(entry.getValue()));
-	        newII.put(entry.getKey(), z);
+		for (Map.Entry<String, String> entry : temp.entrySet()) {
+			HashSet<Integer> temp2 = new HashSet<Integer>();
+			temp2.add(Integer.parseInt(entry.getValue()));
+	        newInvertedIndex.put(entry.getKey(), temp2);
 	    }
 		
-		return newII;
+		return newInvertedIndex;
 	}
 	
 }
