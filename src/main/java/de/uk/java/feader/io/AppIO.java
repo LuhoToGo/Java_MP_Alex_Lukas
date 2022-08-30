@@ -31,15 +31,15 @@ public class AppIO implements IAppIO {
 	public List<Feed> loadSubscribedFeeds(File feedsFile) {
 		
 		try {
-			FileInputStream fis = new FileInputStream(feedsFile);
-			ObjectInputStream ois = new ObjectInputStream(fis);
+			FileInputStream fis = new FileInputStream(feedsFile); // liest die Datei feedsFile in die Objekt-Variable fis
+			ObjectInputStream ois = new ObjectInputStream(fis); // konvertiert den FileInputStream zu einem ObjectInputStream; Macht den nächsten Schritt möglich
 			@SuppressWarnings("unchecked")
-			List<Feed> feeds = (List<Feed>) ois.readObject();
-			ois.close();
+			List<Feed> feeds = (List<Feed>) ois.readObject(); // füllt die Liste feeds mit den abonnierten Feeds aus der Datei
+			ois.close(); 
 			return feeds;
 			
 		} catch (ClassNotFoundException | IOException e) {
-			List<Feed> feeds = new ArrayList<Feed>();
+			List<Feed> feeds = new ArrayList<Feed>(); // erstellt Leere Liste sollte eine Exception auftreten
 			e.printStackTrace();
 			return feeds;
 			
@@ -55,9 +55,9 @@ public class AppIO implements IAppIO {
 	public void saveSubscribedFeeds(List<Feed> feeds, File feedsFile) {
 		
 		try {
-			FileOutputStream fos = new FileOutputStream(feedsFile);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(feeds);
+			FileOutputStream fos = new FileOutputStream(feedsFile); // liest die Datei feedsFile in den OutputStream
+			ObjectOutputStream oos = new ObjectOutputStream(fos); // konvertiert den OutputStream von File zu Object, um ein Object hinzufügen zu können
+			oos.writeObject(feeds); // schreibt die Liste feeds in die Datei feedsFile
 			oos.close();
 			
 		} catch (IOException e) {
@@ -73,7 +73,7 @@ public class AppIO implements IAppIO {
 	public Properties loadConfig(File configFile) {
 		
 		Properties config = new Properties();
-		try (InputStream input = new FileInputStream(configFile)){
+		try (InputStream input = new FileInputStream(configFile)){ // versucht die configFile zu laden und im nächsten Schritt die Variable config zu befüllen
 			config.load(input);
 			return config;
 			
@@ -91,7 +91,7 @@ public class AppIO implements IAppIO {
 	@Override
 	public void saveConfig(Properties config, File configFile) {
 		
-		try (OutputStream output = new FileOutputStream(configFile)){ //eventuell FileNotFoundException -> create File
+		try (OutputStream output = new FileOutputStream(configFile)){ // versucht die configFile zu laden und mit dem Inhalt der config Variable zu füllen
 			config.store(output, null);
 			
 		} catch (IOException e) {
@@ -108,12 +108,12 @@ public class AppIO implements IAppIO {
 	public void exportAsHtml(List<Entry> entries, File htmlFile) {
 		
 		try {
-			FileUtils.writeStringToFile(htmlFile, "<!DOCTYPE html><html><head><title>Feader Export</title></head><body>", "UTF-8", true);
+			FileUtils.writeStringToFile(htmlFile, "<!DOCTYPE html><html><head><title>Feader Export</title></head><body>", "UTF-8", true); // ergänzt das strukturell notwendige HTML-Gerüst
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		
-		for (Entry entry : entries) {
+		for (Entry entry : entries) { // konvertiert jeden Eintrag der Liste in HTML und fügt sie der Datei htmlFile hinzu
 			try {
 				FileUtils.writeStringToFile(htmlFile, entry.html(), "UTF-8", true);
 			} catch (IOException e) {
@@ -122,7 +122,7 @@ public class AppIO implements IAppIO {
 		}
 		
 		try {
-			FileUtils.writeStringToFile(htmlFile, "</body></html>", "UTF-8", true);
+			FileUtils.writeStringToFile(htmlFile, "</body></html>", "UTF-8", true); // ergänzt die abschließenden HTML-Tags 
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

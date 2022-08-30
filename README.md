@@ -1,3 +1,6 @@
+Gruppenteilnehmer: Alessandro Marini & Lukas Hoffmann
+Ich: Lukas Hoffmann
+
 # Allgemeine Informationen
 
 Diese Prüfungsarbeit besteht aus zwei Anforderungen:

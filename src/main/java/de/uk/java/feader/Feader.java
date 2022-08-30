@@ -8,7 +8,16 @@ import de.uk.java.feader.search.SearchEngine;
 import de.uk.java.feader.utils.ITokenizer;
 import de.uk.java.feader.utils.Tokenizer;
 
-
+/*
+ * Das gesamte Projekt wurde von beiden Gruppenmitgliedern (Lukas Hoffmann und Alessandro Marini) angefertigt.
+ * Wir haben ausschließlich in Anwesenheit des anderen an der Modulabschlussprüfung gearbeitet. 
+ * Dazu haben wir uns regelmäßig Online und mit CodeTogether zusammengesetzt.
+ * Daher ist es uns nicht möglich einzelne Methoden einer einzelnen Person zuzuordnen.
+ * Keine Methode wurde ohne die Mitarbeit beider Gruppenmitglieder erstellt oder bearbeitet.
+ * Die Kommentare wurden jeweils individuell erstellt.
+ * 
+ * @author Alessandro Marini & Lukas Hoffmann
+ */
 public class Feader {
 	
 	
@@ -27,7 +36,6 @@ public class Feader {
 	 * @return the new IAppIO instance
 	 */
 	public static IAppIO getAppIO() {
-		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÃœCKGEBEN !!!
 		return new AppIO();
 	}
 	
@@ -36,7 +44,6 @@ public class Feader {
 	 * @return the new ISearchEngine instance
 	 */
 	public static ISearchEngine getSearchEngine() {
-		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÃœCKGEBEN !!!
 		return new SearchEngine();
 	}
 	
@@ -45,7 +52,6 @@ public class Feader {
 	 * @return the new ITokenizer instance
 	 */
 	public static ITokenizer getTokenizer() {
-		// HIER INSTANZ DER EIGENEN IMPLEMENTATION ZURÃœCKGEBEN !!!	
 		return new Tokenizer();
 	}
 

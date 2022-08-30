@@ -7,39 +7,30 @@ import java.util.StringTokenizer;
 import org.jsoup.Jsoup;
 
 
-
-
 public class Tokenizer implements ITokenizer{
 	
-	@Override
+	
 	/**
-	 * Der String "token" bewahrt das nächste Wort des Tokenizers auf.
-	 * Dort kann das Wort mit Hilfe von Jsoup.parse() von HTML-Tags befreit werden.
-	 * Daraufhin entfernt .replaceAll() alle uebrigen Sonderzeichen und Zahlen.
-	 * Im letzten Schritt wird ueberprüft, ob der String leer ist.
-	 * Ist dies nicht der Fall, wird das Wort in die Array-Liste hinzugefuegt.
-	 * 
 	 * @author Alessandro Marini & Lukas Hoffmann
 	 */
+	@Override
 	public List<String> tokenize(String text) {
 		
 		List<String> tokens = new ArrayList<String>();
 		
-		StringTokenizer st = new StringTokenizer(text);
+		StringTokenizer st = new StringTokenizer(text); //initialisieren eines StringTokenizers mit dem �bergebenen Text; Teilt den Text in Worte/Tokens auf
 		while (st.hasMoreTokens()) {
 			String token = st.nextToken();
 			
-			token = Jsoup.parse(token).text();
+			token = Jsoup.parse(token).text(); //Jsoup erkennt und entfernt HTML-Tags
 			
-			token = Jsoup.parse(token).text();
+			token = token.replaceAll("[^öÖäÄüÜßa-zA-Z]",""); //Entfernen von allen Zahlen und Symbolen au�er A-Z und Umlauten
 			
-			token = token.replaceAll("[^öÖäÄüÜßa-zA-Z]","");
-			
-			if(token.isEmpty()) {
+			if(token.isEmpty()) { //sollte ein HTML-Tag oder sonstiges komplett gel�scht worden sein, wird mit dem n�chsten Token weitergemacht
 				continue;
 			}
 			else {
-				tokens.add(token);
+				tokens.add(token); //Hinzuf�gen des einzelnen Token zur StringList aller Tokens
 			}
 		
 		}
