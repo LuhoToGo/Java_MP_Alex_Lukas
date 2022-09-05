@@ -49,6 +49,9 @@ public class ToolBar extends JToolBar {
 		
 		add(Box.createHorizontalStrut(30));
 		
+		add(createToolBarButton("sort", "sort",
+				"Sort the given feeds by name", "Sort", false, buttonActionListener));
+		
 		add(createToolBarButton("export", "export",
 				"Export displayed feed entries as HTML", "Export", false, buttonActionListener));
 		add(createToolBarButton("config", "showConfigDialog",

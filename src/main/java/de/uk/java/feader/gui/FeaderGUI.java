@@ -481,6 +481,12 @@ public class FeaderGUI extends JFrame implements ActionListener, PropertyChangeL
 		displayEntriesTask.execute();
 	}
 	
+	private void sortFeed() {
+		
+	}
+	
+	
+	
 	/*
 	 * Shows a file chooser dialog and starts the export
 	 * of the currenty displayed feed entries as HTML
@@ -551,6 +557,7 @@ public class FeaderGUI extends JFrame implements ActionListener, PropertyChangeL
 		case "addFeed": addFeed(); break;
 		case "deleteFeed": deleteFeed(feedsList.getSelectedValue()); break;
 		case "updateFeeds": updateFeeds(); break;
+		case "sort": sortFeed(); break;
 		case "export": exportDisplayedEntries(); break;
 		case "resetSearch": toolBar.resetSearch(); break;
 		case "about": about(); break;
